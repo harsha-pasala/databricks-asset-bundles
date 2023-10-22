@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./my_project
+        working-directory: my_project
 
     steps:
       - name: Get Bundle Info
@@ -41,7 +41,7 @@ jobs:
   #   runs-on: ubuntu-latest
   #   defaults:
   #     run:
-  #       working-directory: ./my_project
+  #       working-directory: my_project
 
   #   needs:
   #     - deploy
