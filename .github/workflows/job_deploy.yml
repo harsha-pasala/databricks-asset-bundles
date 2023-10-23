@@ -12,8 +12,6 @@ env:
 jobs:
   deploy:
     name: "Setup Config and deploy bundle"
-
-
     runs-on: ubuntu-latest
 
     steps:
