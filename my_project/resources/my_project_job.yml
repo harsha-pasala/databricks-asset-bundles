@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=../schema.json
 # The main job for my_project
 resources:
   jobs:
@@ -19,6 +20,8 @@ resources:
             notebook_path: ../src/notebook.ipynb
         
         - task_key: main_task
+          depends_on:
+            - task_key: notebook_task
           job_cluster_key: job_cluster
           python_wheel_task:
             package_name: my_project
@@ -32,6 +35,9 @@ resources:
       job_clusters:
         - job_cluster_key: job_cluster
           new_cluster:
+            init_scripts:
+              - workspace:
+                  destination: /Shared/${bundle.name}/init-scripts/init-script.sh
             spark_version: 13.3.x-scala2.12
             node_type_id: i3.xlarge
             autoscale:
