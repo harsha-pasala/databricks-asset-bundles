@@ -5,12 +5,14 @@ on:
     branches:
       - develop
 
+env:
+  DATABRICKS_TOKEN: ${{ secrets.E2_SP_TOKEN }}
+  DATABRICKS_BUNDLE_ENV: dev
+
 jobs:
   deploy:
     name: "Setup Config and deploy bundle"
-    env:
-      DATABRICKS_TOKEN: ${{ secrets.E2_SP_TOKEN }}
-      DATABRICKS_BUNDLE_ENV: dev
+
 
     runs-on: ubuntu-latest
 
@@ -31,23 +33,22 @@ jobs:
         working-directory: my_project
         id: copy_init_files
         run: databricks workspace import-dir --overwrite init-scripts /Shared/${{ steps.bundle_info.outputs.BUNDLE_NAME }}/init-scripts/
+
       - name: Deploy Bundle
+        working-directory: my_project
         id: deploy_bundle
         run: databricks bundle deploy
 
-  # pipeline_update:
-  #   name: "Run pipeline update"
-  #   env:
-  #     DATABRICKS_TOKEN: ${{ secrets.E2_SP_TOKEN }}
-  #     DATABRICKS_BUNDLE_ENV: dev
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: my_project
+  pipeline_update:
+    name: "Run pipeline update"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: my_project
 
-  #   needs:
-  #     - deploy
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: databricks/setup-cli@main
-  #     - run: databricks bundle run my_project_job --refresh-all
+    needs:
+      - deploy
+    steps:
+      - uses: actions/checkout@v3
+      - uses: databricks/setup-cli@main
+      - run: databricks bundle run my_project_job --refresh-all
