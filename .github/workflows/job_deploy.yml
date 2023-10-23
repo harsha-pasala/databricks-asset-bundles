@@ -13,12 +13,10 @@ jobs:
       DATABRICKS_BUNDLE_ENV: dev
 
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: my_project
 
     steps:
       - name: Get Bundle Info
+        working-directory: my_project
         id: bundle_info
         run: |
           uses: actions/checkout@v3
@@ -26,7 +24,9 @@ jobs:
           uses: databricks/setup-cli@main
           
           echo "BUNDLE_NAME=$(databricks bundle validate | jq -r '.bundle.name')" >> $GITHUB_OUTPUT
+
       - name: Copy Init Scripts
+        working-directory: my_project
         id: copy_init_files
         run: databricks workspace import-dir --overwrite init-scripts /Shared/${{ steps.bundle_info.outputs.BUNDLE_NAME }}/init-scripts/
       - name: Deploy Bundle
