@@ -1,13 +1,13 @@
-name: My Project Job Deploy
+name: My Project Job Deploy Prod
 concurrency: 1
 on:
-  push:
+  pull_request:
     branches:
-      - develop
+      - main
 
 env:
   DATABRICKS_TOKEN: ${{ secrets.E2_SP_TOKEN }}
-  DATABRICKS_BUNDLE_ENV: dev
+  DATABRICKS_BUNDLE_ENV: prod
 
 jobs:
   deploy:

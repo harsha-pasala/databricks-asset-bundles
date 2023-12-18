@@ -5,10 +5,6 @@ resources:
     my_project_job:
       name: my_project_job
 
-      schedule:
-        quartz_cron_expression: '44 37 8 * * ?'
-        timezone_id: Europe/Amsterdam
-
       email_notifications:
         on_failure:
           - harsha.pasala@databricks.com
@@ -17,7 +13,7 @@ resources:
         - task_key: notebook_task
           job_cluster_key: job_cluster
           notebook_task:
-            notebook_path: ../src/notebook.ipynb
+            notebook_path: ../src/job/notebook.ipynb
         
         - task_key: main_task
           depends_on:
