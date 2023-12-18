@@ -8,7 +8,7 @@ the my_project project.
 from setuptools import setup, find_packages
 
 import sys
-sys.path.append('./src')
+sys.path.append('./src/job/')
 
 import my_project
 
